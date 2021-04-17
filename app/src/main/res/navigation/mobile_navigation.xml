@@ -19,7 +19,24 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.myapplication.ui.slideshow.SlideshowFragment"
+        android:name="com.example.myapplication.ui.listsaveloc.listsaveloc"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_listsaveloc" >
+        <action
+            android:id="@+id/action_nav_slideshow_to_update"
+            app:destination="@id/update" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/update"
+        android:name="com.example.myapplication.Update"
+        android:label="Update" >
+        <action
+            android:id="@+id/action_update_to_nav_slideshow"
+            app:destination="@id/nav_slideshow" />
+        <argument
+            android:name="currentLoc"
+            app:argType="com.example.myapplication.datalokasi.Location" />
+    </fragment>
+
 </navigation>

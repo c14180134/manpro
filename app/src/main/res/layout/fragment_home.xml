@@ -2,11 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ViewMap"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.HomeFragment"
-    android:id="@+id/ViewMap"
-    >
+    android:background="#E91E63"
+    android:backgroundTint="#E91E63"
+    tools:context=".ui.home.HomeFragment">
+
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
@@ -14,5 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MapsFragment" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/map"
+        android:layout_alignBottom="@id/map"
+        app:backgroundTint="#84A5DD"
+        app:srcCompat="@drawable/ic_saveloc" />
 
 </RelativeLayout>

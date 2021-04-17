@@ -1,6 +1,8 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
@@ -13,19 +15,30 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
 class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
-    private lateinit var mMap: GoogleMap
+ 
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var mMap: GoogleMap
+    private var cameraPosition: CameraPosition? = null
+    var latd:Double?? = 0.0
+    var longd:Double?? = 0.0
 
+    private lateinit var locationRequest: LocationRequest
+    private lateinit var locationCallback: LocationCallback
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -35,16 +48,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
                 .findFragmentById(R.id.maps) as? SupportMapFragment
         mapFragment?.getMapAsync(this)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+
         appBarConfiguration = AppBarConfiguration(setOf(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -52,7 +60,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         menuInflater.inflate(R.menu.main, menu)
         return true
     }
@@ -61,13 +69,32 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+    private fun getLocationUpdates() {
+        locationRequest = LocationRequest()
+        locationRequest.interval = 30000
+        locationRequest.fastestInterval = 20000
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+
+        locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                if (locationResult.locations.isNotEmpty()) {
+                    Log.d("longitude",longd.toString())
+                    Log.d("Latitude",latd.toString())
+                    val location = locationResult.lastLocation
+
+                    if (location != null) {
+                        val latLng = LatLng(location.latitude, location.longitude)
+                        val markerOptions = MarkerOptions().position(latLng)
+                        mMap.addMarker(markerOptions)
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
+                    }
+                }
+            }
+        }
+    }
 
     override fun onMapReady(p0: GoogleMap?) {
         TODO("Not yet implemented")
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+
     }
 }
