@@ -2,6 +2,7 @@ package com.example.myapplication.datalokasi
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface LocationDao {
@@ -19,4 +20,7 @@ interface LocationDao {
 
     @Query("SELECT * FROM LOCATION_TABLE ORDER BY id ASC")
     fun readAllData(): LiveData<List<Location>>
+
+    @Query("SELECT * FROM LOCATION_TABLE WHERE Name LIKE :searchQuery")
+    fun searchDatabase(searchQuery: String): Flow<List<Location>>
 }

@@ -22,9 +22,9 @@ class ActivityLocSave : AppCompatActivity() {
         setContentView(R.layout.activity_loc_save)
         val button: Button = findViewById<View>(R.id.update_button) as Button
         val m: EditText = findViewById(R.id.noteUp)
-
+        //memanggil database
         mLocationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
-
+        //memanggil fungsi insert to database yang dapat digunakan untuk menambahkan data ke table location
         button.setOnClickListener {
             insertDatatoDatabase()
 

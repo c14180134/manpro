@@ -1,17 +1,12 @@
 package com.example.myapplication.ui.listsaveloc
 
-import android.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.TextView
-import androidx.fragment.app.FragmentFactory
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.datalokasi.Location
 import com.example.myapplication.datalokasi.LocationViewModel
@@ -20,7 +15,7 @@ import kotlinx.android.synthetic.main.custom_rowloc.view.*
 
 class ListlocAdapter: RecyclerView.Adapter<ListlocAdapter.MyViewHolder>() {
 
-    private var LocList = emptyList<Location>()
+    var LocList = emptyList<Location>()
     private lateinit var mLocationViewModel:LocationViewModel
 
     class  MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -28,17 +23,19 @@ class ListlocAdapter: RecyclerView.Adapter<ListlocAdapter.MyViewHolder>() {
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         return MyViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.custom_rowloc,
-                parent,
-                false
-            )
+                LayoutInflater.from(parent.context).inflate(
+                        R.layout.custom_rowloc,
+                        parent,
+                        false
+                )
         )
     }
 
     override fun getItemCount(): Int {
         return LocList.size
     }
+
+
 
 
 
@@ -58,6 +55,11 @@ class ListlocAdapter: RecyclerView.Adapter<ListlocAdapter.MyViewHolder>() {
     fun setData(lokasi: List<Location>){
         this.LocList = lokasi
         notifyDataSetChanged()
+    }
+
+    fun getList(): List<Location> {
+
+        return LocList
     }
 
 

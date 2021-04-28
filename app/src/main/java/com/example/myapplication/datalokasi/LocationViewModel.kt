@@ -3,12 +3,15 @@ package com.example.myapplication.datalokasi
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 
 import kotlinx.coroutines.launch
 
 class LocationViewModel(application: Application):AndroidViewModel(application) {
+
     val readAllData : LiveData<List<Location>>
 
     private val repository:LocationRepository
@@ -41,5 +44,8 @@ class LocationViewModel(application: Application):AndroidViewModel(application) 
         viewModelScope.launch(Dispatchers.IO) {
             repository.deleteAllLocation()
         }
+    }
+    fun searchDatabase(searchQuery:String): LiveData<List<Location>> {
+        return repository.searchDatabase(searchQuery).asLiveData()
     }
 }

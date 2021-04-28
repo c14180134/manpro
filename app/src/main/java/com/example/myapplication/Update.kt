@@ -48,7 +48,7 @@ class Update : Fragment() {
 
         return view
     }
-
+    //mengupdate current item yang dikirim setelah diklik dibagian listsaveloc
     private fun updateItem(){
         val locationName = locUpname.text.toString()
         val notes= noteUp.text.toString()
@@ -66,6 +66,7 @@ class Update : Fragment() {
 
 
     }
+    //mendelete current item yang dikirim setelah diklik dibagian listsaveloc
     private fun deleteLoc(){
         val builder = AlertDialog.Builder(requireContext())
         builder.setPositiveButton("Yes"){ _, _ ->

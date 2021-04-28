@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignEnd="@id/map"
         android:layout_alignBottom="@id/map"
+        android:layout_marginBottom="80dp"
         app:backgroundTint="#84A5DD"
         app:srcCompat="@drawable/ic_saveloc" />
 

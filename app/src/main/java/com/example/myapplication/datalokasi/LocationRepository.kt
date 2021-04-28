@@ -1,6 +1,7 @@
 package com.example.myapplication.datalokasi
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 class LocationRepository(private val LocationDao:LocationDao) {
     val readAllData: LiveData<List<Location>> = LocationDao.readAllData()
@@ -18,6 +19,9 @@ class LocationRepository(private val LocationDao:LocationDao) {
     }
     suspend fun deleteAllLocation(){
         LocationDao.deleteAllLocation()
+    }
+    fun searchDatabase(searchQuery:String):Flow<List<Location>>{
+        return LocationDao.searchDatabase(searchQuery)
     }
 
 }

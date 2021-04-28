@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.widget.LinearLayout
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -15,6 +16,20 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.datalokasi.Location
+import com.example.myapplication.datalokasi.LocationViewModel
+import com.example.myapplication.datashoppinglist.db.ShoppingDatabase
+import com.example.myapplication.datashoppinglist.db.ShoppingViewModel
+import com.example.myapplication.datashoppinglist.db.ShoppingViewModelFactory
+import com.example.myapplication.datashoppinglist.db.shopentities.ShoppingItem
+import com.example.myapplication.datashoppinglist.db.shoppingRepo.ShoppingRepository
+import com.example.myapplication.ui.AddDialogListener
+import com.example.myapplication.ui.AddShoppingItemDialog
+import com.example.myapplication.ui.listsaveloc.ListlocAdapter
+import com.example.myapplication.ui.shoppingList.ShoppingItemAdapter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -26,27 +41,33 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_shoppinglist.*
 
 
-class MainActivity : AppCompatActivity(), OnMapReadyCallback {
+class MainActivity : AppCompatActivity() {
 
  
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var mMap: GoogleMap
-    private var cameraPosition: CameraPosition? = null
-    var latd:Double?? = 0.0
-    var longd:Double?? = 0.0
+    private var LocList = emptyList<Location>()
+    lateinit var mLocationViewModel: LocationViewModel
 
-    private lateinit var locationRequest: LocationRequest
-    private lateinit var locationCallback: LocationCallback
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        val mapFragment = supportFragmentManager
-                .findFragmentById(R.id.maps) as? SupportMapFragment
-        mapFragment?.getMapAsync(this)
+        mLocationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
+        val adapter = ListlocAdapter()
+
+        mLocationViewModel.readAllData.observe(this,{ location->
+            adapter.setData(location)
+            LocList=adapter.getList()
+
+        })
 
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -69,32 +90,5 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
-    private fun getLocationUpdates() {
-        locationRequest = LocationRequest()
-        locationRequest.interval = 30000
-        locationRequest.fastestInterval = 20000
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                if (locationResult.locations.isNotEmpty()) {
-                    Log.d("longitude",longd.toString())
-                    Log.d("Latitude",latd.toString())
-                    val location = locationResult.lastLocation
-
-                    if (location != null) {
-                        val latLng = LatLng(location.latitude, location.longitude)
-                        val markerOptions = MarkerOptions().position(latLng)
-                        mMap.addMarker(markerOptions)
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15f))
-                    }
-                }
-            }
-        }
-    }
-
-    override fun onMapReady(p0: GoogleMap?) {
-        TODO("Not yet implemented")
-
-    }
 }
