@@ -42,5 +42,10 @@
             android:name="currentLoc"
             app:argType="com.example.myapplication.datalokasi.Location" />
     </fragment>
+    <fragment
+        android:id="@+id/gudangstock"
+        android:name="com.example.myapplication.ui.stock.gudangstock"
+        android:label="Stock"
+        tools:layout="@layout/fragment_gudangstock" />
 
 </navigation>

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Locxm"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#6c8b96">
 
     <EditText
         android:id="@+id/locUpname"
@@ -12,10 +13,12 @@
         android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:background="#63a4b4"
         android:ems="10"
+        android:fontFamily="@font/allerta"
         android:hint="Location name"
         android:inputType="textPersonName"
-        android:textColor="#130505"
+        android:textColor="#FFFFFF"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,26 +28,29 @@
         android:layout_width="361dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
+        android:background="#63A4B4"
         android:ems="10"
+        android:fontFamily="@font/allerta"
         android:hint="comment"
         android:inputType="textMultiLine"
-        android:textColor="#1B0909"
-        app:layout_constraintBottom_toTopOf="@+id/update_button"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/locUpname" />
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarUp" />
 
     <Button
         android:id="@+id/update_button"
         android:layout_width="368dp"
         android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="#030915"
         android:text="UPDATE"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
@@ -61,5 +67,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/ic_delete" />
+
+    <RatingBar
+        android:id="@+id/ratingBarUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="36dp"
+        android:progressTint="#FFEB3B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locUpname" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

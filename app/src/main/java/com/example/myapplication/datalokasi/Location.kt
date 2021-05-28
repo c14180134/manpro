@@ -14,5 +14,6 @@ data class Location (
         val Name : String,
         val Longitude : Double,
         val Latitude: Double,
-        val Notes : String
+        val Notes : String,
+        val Nilai : Float
 ): Parcelable

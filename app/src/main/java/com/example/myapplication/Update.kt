@@ -38,6 +38,7 @@ class Update : Fragment() {
         val view =inflater.inflate(R.layout.fragment_update, container, false)
         view.locUpname.setText(args.currentLoc.Name)
         view.noteUp.setText(args.currentLoc.Notes)
+        view.ratingBarUp.setRating(args.currentLoc.Nilai)
         mLocationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
         view.update_button.setOnClickListener{
             updateItem()
@@ -52,9 +53,9 @@ class Update : Fragment() {
     private fun updateItem(){
         val locationName = locUpname.text.toString()
         val notes= noteUp.text.toString()
-
+        val ratingBars=ratingBarUp.rating
         if(inputCheck(locationName,notes)){
-            val updateLocNote = Location(args.currentLoc.id,locationName,args.currentLoc.Longitude,args.currentLoc.Latitude,notes)
+            val updateLocNote = Location(args.currentLoc.id,locationName,args.currentLoc.Longitude,args.currentLoc.Latitude,notes,ratingBars)
 
             mLocationViewModel.updateLocation(updateLocNote)
             Toast.makeText(requireContext(),"Update Succesfully",Toast.LENGTH_SHORT).show()

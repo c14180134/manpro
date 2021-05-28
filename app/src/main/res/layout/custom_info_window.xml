@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#99A2D6"
+        android:background="#3f7182"
         android:orientation="vertical">
 
         <TextView
@@ -17,9 +17,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
+            android:fontFamily="@font/allerta"
             android:maxLines="1"
-            android:textColor="#000"
-            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
@@ -27,8 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
+            android:fontFamily="@font/allerta"
             android:maxLines="10"
-            android:textColor="#000"
+            android:textColor="#FFFFFF"
             android:textSize="14sp" />
 
         <ImageButton
@@ -38,7 +40,7 @@
             android:layout_height="35dp"
             android:layout_gravity="center_horizontal"
             android:alpha="0.9"
-            android:backgroundTint="#858585"
+            android:backgroundTint="#23321A"
             android:clickable="true"
             android:elevation="30dp"
             android:scaleType="fitCenter"

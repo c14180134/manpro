@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -44,7 +45,7 @@ class ListlocAdapter: RecyclerView.Adapter<ListlocAdapter.MyViewHolder>() {
         val currentItem = LocList[position]
         holder.itemView.findViewById<TextView>(R.id.locnames).text = currentItem.Name
         holder.itemView.findViewById<TextView>(R.id.comment).text = currentItem.Notes
-
+        holder.itemView.findViewById<RatingBar>(R.id.ratingBarLocc).rating=currentItem.Nilai
         holder.itemView.rowLayout.setOnClickListener{
             val action = listsavelocDirections.actionNavSlideshowToUpdate(currentItem)
             holder.itemView.findNavController().navigate(action)

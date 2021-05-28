@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="#0b2d39"
+    android:foregroundTint="#FFFFFF">
 
     <TextView
         android:id="@+id/tvName"
@@ -12,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/allerta"
         android:text="TextView"
+        android:textColor="#FDF3F3"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,7 +27,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="70dp"
+        android:fontFamily="@font/allerta"
         android:text="TextView"
+        android:textColor="#FDF3F3"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -34,7 +40,7 @@
         android:layout_height="35dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_delete"
+        android:src="@drawable/ic_removewite"
         app:layout_constraintStart_toStartOf="@+id/tvName"
         app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -44,7 +50,7 @@
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:src="@drawable/ic_minus"
+        android:src="@drawable/ic_minuswite"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvAmount" />
 
@@ -54,7 +60,8 @@
         android:layout_height="35dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:src="@drawable/ic_plus"
+        android:backgroundTint="#FFFFFF"
+        android:src="@drawable/ic_pluswite"
         app:layout_constraintEnd_toStartOf="@+id/tvMinus"
         app:layout_constraintTop_toBottomOf="@+id/tvAmount" />
 
