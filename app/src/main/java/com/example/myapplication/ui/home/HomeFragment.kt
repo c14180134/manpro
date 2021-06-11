@@ -1,8 +1,12 @@
 package com.example.myapplication.ui.home
 
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -19,6 +24,10 @@ import com.example.myapplication.*
 import com.example.myapplication.R
 import com.example.myapplication.datalokasi.Location
 import com.example.myapplication.datalokasi.LocationViewModel
+import com.example.myapplication.datanotif.notifViewModel
+import com.example.myapplication.datanotif.notifViewModelFactory
+import com.example.myapplication.datanotif.notificationDatabase
+import com.example.myapplication.datanotif.notificationRepository
 import com.example.myapplication.ui.listsaveloc.ListlocAdapter
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -50,9 +59,41 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     var x:Int = 0
 
     var listnear:MutableList<String> = mutableListOf<String>()
-
+    var listAll:MutableList<String> = mutableListOf<String>()
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
          x=0
+        val database= notificationDatabase(this.requireContext())
+        val repository= notificationRepository(database)
+        val factory= notifViewModelFactory(repository)
+
+        val viewModelNotification= ViewModelProvider(this,factory).get(notifViewModel::class.java)
+        viewModelNotification.getAllShoppingitems().observe(viewLifecycleOwner, Observer { notification ->
+            var iter=0;
+            while(iter<notification.size){
+                var builder = NotificationCompat.Builder(requireContext(), "")
+                        .setSmallIcon(R.drawable.ic_plus)
+                        .setContentTitle("Item Reminder")
+                        .setContentText(notification[iter].notifNamex)
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                val notificationManager: NotificationManager =
+                        requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    val channelId = "Your_channel_id"
+                    val channel = NotificationChannel(
+                            channelId,
+                            "Channel human readable title",
+                            NotificationManager.IMPORTANCE_HIGH
+                    )
+                    notificationManager.createNotificationChannel(channel);
+                    builder.setChannelId(channelId)
+                }
+
+                notificationManager.notify(120+iter, builder.build());
+                iter++
+            }
+
+        })
 
         //fungsi get database ke fragment
         mLocationViewModel = ViewModelProvider(this).get(LocationViewModel::class.java)
@@ -115,9 +156,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
         }
         var index=0
+        var index2=0
         fabnear.setOnClickListener {
-
-         while (index<adapter.itemCount-1){
+            mMap.clear()
+         while (index<adapter.itemCount){
              var lon1 = toRadians(longd!!)
              var lon2 = toRadians(LocList[index].Longitude)
              var lat1 = toRadians(latd!!)
@@ -141,15 +183,18 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
              // for miles
              var r = 6371.0*c
 
-             if(r<10){
-                 Log.d("final",index.toString()+LocList[index].Name)
-
+             if(r<2){
+                 mMap.addMarker(
+                         MarkerOptions()
+                                 .position(LatLng(LocList[index-1].Latitude, LocList[index-1].Longitude))
+                                 .title(LocList[index].Name)
+                                 .snippet(LocList[index].Notes)
+                 )
                  listnear.add(LocList[index].Name)
              }
              // calculate the result
 
              // calculate the result
-             Log.d("final", r.toString())
              index++
          }
                 if(listnear.size!=0){
@@ -162,9 +207,28 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 }
 
 
-
+            index=0
+            listnear.clear()
         }
 
+        fablist.setOnClickListener {
+            embark()
+            while (index2<adapter.itemCount-1){
+
+                listAll.add(LocList[index2].Name)
+                Log.d("final", index2.toString())
+                index2++
+            }
+            if(listAll.size!=0){
+                Toast.makeText(requireContext(),
+                        "List of Location "+listAll,Toast.LENGTH_LONG).show()
+            }
+            else{
+                Toast.makeText(requireContext(),
+                        "There is no saved Location",Toast.LENGTH_LONG).show()
+            }
+
+        }
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
 
@@ -281,6 +345,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 )
                x++
             }
+        x=0
         mMap.setOnInfoWindowClickListener {
             val bundle = Bundle()
             bundle.putString("message", it.title)

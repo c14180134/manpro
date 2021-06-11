@@ -39,4 +39,15 @@
         app:backgroundTint="#205b66"
         app:srcCompat="@drawable/ic_nearbywite" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fablist"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_above="@+id/fabnear"
+        android:layout_alignEnd="@id/map"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="11dp"
+        app:backgroundTint="#205b66"
+        app:srcCompat="@drawable/ic_allloc" />
+
 </RelativeLayout>

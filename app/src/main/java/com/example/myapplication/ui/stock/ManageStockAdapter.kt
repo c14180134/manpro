@@ -12,14 +12,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.datamanagestok.ManageStock
+import com.example.myapplication.datanotif.*
 import kotlinx.android.synthetic.main.manage_stock.view.*
 
 class ManageStockAdapter(
     var items: List<ManageStock>,
-    private val viewModel: ManageViewModel
+    private val viewModel: ManageViewModel,
+    private val viewModelnotif: notifViewModel
 ): RecyclerView.Adapter<ManageStockAdapter.ManageViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ManageViewHolder {
@@ -32,6 +35,7 @@ class ManageStockAdapter(
     }
 
     override fun onBindViewHolder(holder: ManageViewHolder, position: Int) {
+
         val curManageStock = items[position]
 
         holder.itemView.tvName.text = curManageStock.name
@@ -64,6 +68,7 @@ class ManageStockAdapter(
             viewModel.upsert(curManageStock)
             if(curManageStock.amount == curManageStock.reminder){
                 Log.d("MASUK","adsfads")
+                viewModelnotif.insert(notifItems("Your stock of ${curManageStock.name} is running low"))
                 var builder = NotificationCompat.Builder(holder.itemView.context, "")
                     .setSmallIcon(R.drawable.ic_plus)
                     .setContentTitle("Item Reminder")

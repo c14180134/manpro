@@ -47,5 +47,10 @@
         android:name="com.example.myapplication.ui.stock.gudangstock"
         android:label="Stock"
         tools:layout="@layout/fragment_gudangstock" />
+    <fragment
+        android:id="@+id/notificationList"
+        android:name="com.example.myapplication.ui.notifList.notificationList"
+        android:label="Notification"
+        tools:layout="@layout/fragment_notification_list" />
 
 </navigation>

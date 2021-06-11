@@ -15,6 +15,10 @@ import com.example.myapplication.datalokasi.LocationViewModel
 import com.example.myapplication.datamanagestok.ManageDatabase
 import com.example.myapplication.datamanagestok.ManageRepository
 import com.example.myapplication.datamanagestok.ManageStock
+import com.example.myapplication.datanotif.notifViewModel
+import com.example.myapplication.datanotif.notifViewModelFactory
+import com.example.myapplication.datanotif.notificationDatabase
+import com.example.myapplication.datanotif.notificationRepository
 import com.example.myapplication.datashoppinglist.db.ShoppingDatabase
 import com.example.myapplication.datashoppinglist.db.ShoppingViewModel
 import com.example.myapplication.datashoppinglist.db.ShoppingViewModelFactory
@@ -50,8 +54,13 @@ class gudangstock : Fragment() {
 
         val viewModel= ViewModelProvider(this,factory).get(ManageViewModel::class.java)
 
+        val database1= notificationDatabase(this.requireContext())
+        val repository1= notificationRepository(database1)
+        val factory1= notifViewModelFactory(repository1)
 
-        val adapter = ManageStockAdapter(listOf(), viewModel)
+        val viewModelNotification= ViewModelProvider(this,factory1).get(notifViewModel::class.java)
+
+        val adapter = ManageStockAdapter(listOf(), viewModel,viewModelNotification)
 
         rvManageStock.adapter = adapter
         rvManageStock.layoutManager = LinearLayoutManager(requireContext())
